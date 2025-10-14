@@ -15,7 +15,6 @@ import { Checkbox } from "src/components/ui/checkbox";
 import { LoadingButton } from "src/components/ui/custom/loading-button";
 import { Label } from "src/components/ui/label";
 import { Separator } from "src/components/ui/separator";
-import { useAlbyBalance } from "src/hooks/useAlbyBalance";
 import { useChannels } from "src/hooks/useChannels";
 
 import { useInfo } from "src/hooks/useInfo";
@@ -51,7 +50,6 @@ export function FirstChannel() {
   const navigate = useNavigate();
   const [invoice, setInvoice] = React.useState<string>();
   const [channelSize, setChannelSize] = React.useState<number>();
-  const { data: albyBalance } = useAlbyBalance();
 
   React.useEffect(() => {
     if (channels?.length) {
@@ -338,34 +336,19 @@ export function FirstChannel() {
                 </Button>
               </div>
             )}
-            {lspChannelOffer.currentPaymentMethod === "fee_credits" && (
-              <>
-                <p className="text-sm">
-                  You currently have{" "}
-                  <span className="font-medium text-foreground sensitive slashed-zero">
-                    {new Intl.NumberFormat().format(albyBalance?.sats || 0)}{" "}
-                  </span>{" "}
-                  Alby fee credits which will be used to open your first
-                  Lightning channel.{" "}
-                  <ExternalLink
-                    to="https://guides.getalby.com/user-guide/alby-account/faq/what-are-fee-credits-in-my-alby-account"
-                    className="underline"
-                  >
-                    Learn more
-                  </ExternalLink>
-                </p>
-              </>
-            )}
             {lspChannelOffer.currentPaymentMethod !== "prepaid" &&
-              lspChannelOffer.currentPaymentMethod !== "fee_credits" &&
               lspChannelOffer.currentPaymentMethod !== "included" && (
-                <p className="text-xs text-muted-foreground flex items-center justify-center -mb-2">
-                  The cost will be included in your next subscription payment
+                <p className="text-xs text-muted-foreground flex items-center justify-center -mb-4">
+                  The payment for the channel will be due immediately.
                 </p>
               )}
+            <p className="text-center text-xs -mb-2">
+              By continuing, you consent the channel opens immediately and that
+              you lose the right to revoke once it is open.
+            </p>
             {lspChannelOffer.currentPaymentMethod === "included" && (
               <p className="text-xs text-muted-foreground flex items-center justify-center -mb-2">
-                This channel comes free with your Alby Pro subscription
+                This channel comes free with your Alby Pro subscription.
               </p>
             )}
             <LoadingButton loading={isLoading} onClick={openChannel}>

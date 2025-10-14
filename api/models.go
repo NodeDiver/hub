@@ -116,13 +116,14 @@ type ListAppsResponse struct {
 }
 
 type UpdateAppRequest struct {
-	Name          string   `json:"name"`
-	MaxAmountSat  uint64   `json:"maxAmount"`
-	BudgetRenewal string   `json:"budgetRenewal"`
-	ExpiresAt     string   `json:"expiresAt"`
-	Scopes        []string `json:"scopes"`
-	Metadata      Metadata `json:"metadata,omitempty"`
-	Isolated      bool     `json:"isolated"`
+	Name            *string   `json:"name"`
+	MaxAmountSat    *uint64   `json:"maxAmount"`
+	BudgetRenewal   *string   `json:"budgetRenewal"`
+	ExpiresAt       *string   `json:"expiresAt"`
+	UpdateExpiresAt bool      `json:"updateExpiresAt"`
+	Scopes          []string  `json:"scopes"`
+	Metadata        *Metadata `json:"metadata"`
+	Isolated        *bool     `json:"isolated"`
 }
 
 type TransferRequest struct {
@@ -150,9 +151,8 @@ type CreateLightningAddressRequest struct {
 }
 
 type InitiateSwapRequest struct {
-	SwapAmount            uint64 `json:"swapAmount"`
-	Destination           string `json:"destination"`
-	UseExactReceiveAmount bool   `json:"useExactReceiveAmount"`
+	SwapAmount  uint64 `json:"swapAmount"`
+	Destination string `json:"destination"`
 }
 
 type RefundSwapRequest struct {
@@ -215,6 +215,7 @@ type StartRequest struct {
 type UnlockRequest struct {
 	UnlockPassword  string  `json:"unlockPassword"`
 	TokenExpiryDays *uint64 `json:"tokenExpiryDays"`
+	Permission      string  `json:"permission,omitempty"` // "full" or "readonly"
 }
 
 type BackupReminderRequest struct {
@@ -459,10 +460,10 @@ type BasicRestoreWailsRequest struct {
 type NetworkGraphResponse = lnclient.NetworkGraphResponse
 
 type LSPOrderRequest struct {
-	Amount  uint64 `json:"amount"`
-	LSPType string `json:"lspType"`
-	LSPUrl  string `json:"lspUrl"`
-	Public  bool   `json:"public"`
+	Amount        uint64 `json:"amount"`
+	LSPType       string `json:"lspType"`
+	LSPIdentifier string `json:"lspIdentifier"`
+	Public        bool   `json:"public"`
 }
 
 type LSPOrderResponse struct {
